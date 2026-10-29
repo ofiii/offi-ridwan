@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id" class="terkunci">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan Ofii & Ridwan</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      font-family: 'Bree Serif', serif;
+      overflow-x: hidden;
+    }
+
+    /* --- KUNCI SCROLLBAR --- */
+    html.terkunci,
+    html.terkunci body {
+      overflow: hidden !important;
+      height: 100vh;
+    }
+
+    /* --- SAMPUL DEPAN (COVER) --- */
+    #cover {
+      position: fixed;
+      inset: 0;
+      background-color: #310c1c;
+      z-index: 100;
+      transition: transform 1s ease-in-out, opacity 1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cover-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      aspect-ratio: 9 / 16;
+      max-height: 100vh;
+      max-height: 100dvh;
+      background-image: url('cover.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    #cover.buka {
+      transform: translateY(-100vh);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* --- INFO TAMU (NAMA & TEKS PERINGATAN) --- */
+    .info-tamu {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      text-align: center;
+      color: #a8c8e4;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .nama-tamu {
+      font-family: 'Bree Serif', serif;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+      white-space: nowrap;
+    }
+
+    .disclaimer {
+      font-family: 'Bree Serif', serif;
+      font-size: 0.55rem;
+      line-height: 1.4;
+      opacity: 0.9;
+    }
+
+    /* --- TOMBOL OPEN HERE --- */
+    #btn-buka {
+      position: absolute;
+      bottom: 10%;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 8px 28px;
+      white-space: nowrap;
+      border: none;
+      border-radius: 50px;
+      background: #a8c8e4;
+      color: #310c1c;
+      font-family: 'Bree Serif', serif;
+      font-size: 0.8rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s;
+    }
+
+    #btn-buka:active {
+      transform: translateX(-50%) scale(0.95);
+    }
+
+    /* --- WADAH CANVA (PERBAIKAN SCROLL & ANIMASI) --- */
+    #canva-container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      margin: 0 auto;
+      background: white;
+      height: 100vh;
+      /* Kunci tinggi seukuran layar HP */
+      height: 100dvh;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      /* Sembunyikan scrollbar tebal yang kita dorong */
+    }
+
+    /* --- TRIK CSS MENYEMBUNYIKAN SCROLLBAR CANVA --- */
+    .canva-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      border: none;
+      padding: 0;
+      margin: 0;
+      width: calc(100% + 18px);
+      /* Dorong scrollbar PC ke luar layar */
+      height: 100%;
+      /* Biarkan Canva mengurus scroll internalnya */
+    }
+
+    @media (max-width: 600px) {
+      .canva-iframe {
+        width: 100%;
+        /* Di HP normal karena scrollbar HP transparan/melayang */
+      }
+    }
+
+    /* --- KILAU / GLITTER MELAYANG --- */
+    #kilau {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 80;
+    }
+
+    #kilau span {
+      position: absolute;
+      opacity: 0;
+      line-height: 1;
+      animation: kerlip 4s ease-in-out infinite, melayang 9s ease-in-out infinite;
+    }
+
+    @keyframes kerlip {
+
+      0%,
+      100% {
+        opacity: 0;
+        transform: scale(0.4);
+      }
+
+      50% {
+        opacity: 0.9;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes melayang {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-14px);
+      }
+    }
+
+    /* --- TOMBOL MUSIK (PIRINGAN.PNG) --- */
+    #btn-musik {
+      position: fixed;
+      bottom: 30px;
+      right: 20px;
+      z-index: 110;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      padding: 0;
+      object-fit: cover;
+    }
+
+    #btn-musik.aktif {
+      display: block;
+    }
+
+    .putar {
+      animation: putaran 4s linear infinite;
+    }
+
+    @keyframes putaran {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SAMPUL UNDANGAN -->
+  <div id="cover">
+    <div class="cover-wrapper">
+
+      <!-- WADAH BARU UNTUK NAMA DAN TEKS PERINGATAN -->
+      <div class="info-tamu">
+        <div class="nama-tamu" id="nama-tamu">TAMU UNDANGAN</div>
+        <div class="disclaimer">
+          We kindly apologize, but this invitation is valid for one (1) guest only.<br>
+          Thank you for your kind understanding.
+        </div>
+      </div>
+
+      <button id="btn-buka">open here</button>
+    </div>
+  </div>
+
+  <!-- EFEK KILAU -->
+  <div id="kilau"></div>
+
+  <!-- ISI UNDANGAN (KODE CANVA DENGAN SCROLL INTERNAL AGAR ANIMASI NYALA) -->
+  <div id="canva-container">
+    <!-- Perhatikan: Rasio padding-top dihapus, diganti scroll mandiri Canva -->
+    <iframe id="undangan-canva" class="canva-iframe" loading="lazy" src=""
+      data-src="https://www.canva.com/design/DAHYnyLk7CM/nev8W0H6DXjVHl9ZcMiugg/view?embed"
+      allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
+  </div>
+
+  <!-- ELEMEN MUSIK & PIRINGAN -->
+  <audio id="musik" src="music.mp3" loop preload="auto"></audio>
+  <img id="btn-musik" src="piringan.png" alt="Putar Musik">
+
+  <!-- LOGIKA JAVASCRIPT -->
+  <script>
+    // 1. Mengambil nama tamu dari URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const nama = urlParams.get('to');
+    if (nama) {
+      document.getElementById('nama-tamu').textContent = nama;
+      document.title = "Undangan: " + nama;
+    }
+
+    // 2. Logika Kilau/Glitter
+    (function () {
+      const layer = document.getElementById('kilau');
+      const warna = ['#e9b9a6', '#f3e9dc', '#a8c8e4'];
+      let seed = 7;
+
+      const acak = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+
+      for (let i = 0; i < 15; i++) {
+        const s = document.createElement('span');
+        s.textContent = '✦';
+        s.style.left = (acak() * 96 + 2) + '%';
+        s.style.top = (acak() * 98) + '%';
+        s.style.fontSize = (acak() * 10 + 8) + 'px';
+        s.style.color = warna[i % warna.length];
+        s.style.animationDuration = (acak() * 3 + 3) + 's, ' + (acak() * 6 + 7) + 's';
+        s.style.animationDelay = (-acak() * 8) + 's';
+        layer.appendChild(s);
+      }
+    })();
+
+    // 3. Logika Buka Undangan & Musik
+    const btnBuka = document.getElementById('btn-buka');
+    const cover = document.getElementById('cover');
+    const musik = document.getElementById('musik');
+    const btnMusik = document.getElementById('btn-musik');
+    const iframeCanva = document.getElementById('undangan-canva');
+
+    btnBuka.addEventListener('click', () => {
+      cover.classList.add('buka');
+      document.documentElement.classList.remove('terkunci');
+
+      // Memberi jeda 800ms sebelum memuat iframe Canva
+      // Agar cover bisa terangkat dulu, baru animasi Canva dimainkan!
+      setTimeout(() => {
+        iframeCanva.src = iframeCanva.getAttribute('data-src');
+      }, 800);
+
+      btnMusik.classList.add('aktif');
+      musik.play().then(() => {
+        btnMusik.classList.add('putar');
+      }).catch(err => {
+        console.log("Autoplay musik dicegah oleh browser.", err);
+      });
+    });
+
+    // 4. Tombol Play/Pause Musik
+    btnMusik.addEventListener('click', () => {
+      if (musik.paused) {
+        musik.play();
+        btnMusik.classList.add('putar');
+      } else {
+        musik.pause();
+        btnMusik.classList.remove('putar');
+      }
+    });
+  </script>
+</body>
+
+</html>
