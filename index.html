@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id" class="terkunci">
+<html lang="en" class="terkunci">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Undangan Pernikahan Ofii & Ridwan</title>
+  <title>Wedding Invitation of Ofii & Ridwan</title>
   <link href="https://fonts.googleapis.com/css2?family=Bree+Serif&display=swap" rel="stylesheet">
   <style>
     body,
@@ -116,14 +116,11 @@
       margin: 0 auto;
       background: white;
       height: 100vh;
-      /* Kunci tinggi seukuran layar HP */
       height: 100dvh;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
       overflow: hidden;
-      /* Sembunyikan scrollbar tebal yang kita dorong */
     }
 
-    /* --- TRIK CSS MENYEMBUNYIKAN SCROLLBAR CANVA --- */
     .canva-iframe {
       position: absolute;
       top: 0;
@@ -132,15 +129,12 @@
       padding: 0;
       margin: 0;
       width: calc(100% + 18px);
-      /* Dorong scrollbar PC ke luar layar */
       height: 100%;
-      /* Biarkan Canva mengurus scroll internalnya */
     }
 
     @media (max-width: 600px) {
       .canva-iframe {
         width: 100%;
-        /* Di HP normal karena scrollbar HP transparan/melayang */
       }
     }
 
@@ -186,7 +180,7 @@
       }
     }
 
-    /* --- TOMBOL MUSIK (PIRINGAN.PNG) --- */
+    /* --- TOMBOL MUSIK --- */
     #btn-musik {
       position: fixed;
       bottom: 30px;
@@ -217,6 +211,136 @@
         transform: rotate(360deg);
       }
     }
+
+    /* --- TOMBOL KADO MELAYANG (BARU) --- */
+    #btn-kado {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      z-index: 110;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: none;
+      background: #a8c8e4;
+      color: #310c1c;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: none;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      line-height: 1;
+    }
+
+    #btn-kado.aktif {
+      display: flex;
+    }
+
+    #btn-kado:active {
+      transform: scale(0.9);
+    }
+
+    /* --- POP-UP KADO --- */
+    #popup-kado {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #popup-kado.tampil {
+      display: flex;
+    }
+
+    .kotak-kado {
+      background: #f7f7f7;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      width: 85%;
+      max-width: 320px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      font-family: 'Bree Serif', serif;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .kotak-kado h3 {
+      color: #310c1c;
+      margin-top: 0;
+      margin-bottom: 15px;
+    }
+
+    /* Box Rekening */
+    .rek-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .rek-bank {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: #310c1c;
+    }
+
+    .rek-nama {
+      font-size: 0.8rem;
+      color: #555;
+      margin-bottom: 5px;
+    }
+
+    .rek-nomor {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #310c1c;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .btn-salin {
+      background: #a8c8e4;
+      color: #310c1c;
+      border: none;
+      padding: 6px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    /* Tombol Wishlist Spreadsheets */
+    .btn-wishlist {
+      display: block;
+      background: #310c1c;
+      color: #a8c8e4;
+      text-decoration: none;
+      padding: 10px;
+      border-radius: 20px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      font-size: 0.9rem;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-tutup {
+      background: transparent;
+      border: none;
+      color: #888;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-family: inherit;
+    }
   </style>
 </head>
 
@@ -225,16 +349,13 @@
   <!-- SAMPUL UNDANGAN -->
   <div id="cover">
     <div class="cover-wrapper">
-
-      <!-- WADAH BARU UNTUK NAMA DAN TEKS PERINGATAN -->
       <div class="info-tamu">
-        <div class="nama-tamu" id="nama-tamu">TAMU UNDANGAN</div>
+        <div class="nama-tamu" id="nama-tamu">DEAR GUEST</div>
         <div class="disclaimer">
           We kindly apologize, but this invitation is valid for one (1) guest only.<br>
           Thank you for your kind understanding.
         </div>
       </div>
-
       <button id="btn-buka">open here</button>
     </div>
   </div>
@@ -242,17 +363,50 @@
   <!-- EFEK KILAU -->
   <div id="kilau"></div>
 
-  <!-- ISI UNDANGAN (KODE CANVA DENGAN SCROLL INTERNAL AGAR ANIMASI NYALA) -->
+  <!-- ISI UNDANGAN (KODE CANVA) -->
   <div id="canva-container">
-    <!-- Perhatikan: Rasio padding-top dihapus, diganti scroll mandiri Canva -->
-    <iframe id="undangan-canva" class="canva-iframe" loading="lazy" src=""
+    <iframe id="undangan-canva" class="canva-iframe" scrolling="no" loading="lazy" src=""
       data-src="https://www.canva.com/design/DAHYnyLk7CM/nev8W0H6DXjVHl9ZcMiugg/view?embed"
       allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
   </div>
 
-  <!-- ELEMEN MUSIK & PIRINGAN -->
+  <!-- ELEMEN MUSIK & KADO MELAYANG -->
   <audio id="musik" src="music.mp3" loop preload="auto"></audio>
   <img id="btn-musik" src="piringan.png" alt="Putar Musik">
+  <button id="btn-kado" title="Wedding Gift">🎁</button>
+
+  <!-- POP-UP WEDDING GIFT -->
+  <div id="popup-kado">
+    <div class="kotak-kado">
+      <h3>Wedding Gift</h3>
+
+      <!-- REKENING 1 (BLU BCA) -->
+      <div class="rek-box">
+        <div class="rek-bank">Blu BCA (BCA Digital)</div>
+        <div class="rek-nama">Siti Nurul Khofifah</div>
+        <div class="rek-nomor">005341361020</div>
+        <button class="btn-salin" id="salin-1" onclick="salinRekening('005341361020', 'salin-1')">Copy Account
+          Number</button>
+      </div>
+
+      <!-- REKENING 2 (JAGO SYARIAH) -->
+      <div class="rek-box">
+        <div class="rek-bank">Bank Jago Syariah</div>
+        <div class="rek-nama">Ridwan</div>
+        <div class="rek-nomor">500493754999</div>
+        <button class="btn-salin" id="salin-2" onclick="salinRekening('500493754999', 'salin-2')">Copy Account
+          Number</button>
+      </div>
+
+      <!-- LINK WISHLIST SPREADSHEET -->
+      <a href="https://docs.google.com/spreadsheets/d/1_kthl0Rhr9gPCyzXcPzHKHFuelBNaQEgmWBhSY48JCA/edit?gid=0#gid=0"
+        target="_blank" class="btn-wishlist">
+        View Gift Wishlist
+      </a>
+
+      <button class="btn-tutup" onclick="tutupKado()">Close</button>
+    </div>
+  </div>
 
   <!-- LOGIKA JAVASCRIPT -->
   <script>
@@ -261,7 +415,7 @@
     const nama = urlParams.get('to');
     if (nama) {
       document.getElementById('nama-tamu').textContent = nama;
-      document.title = "Undangan: " + nama;
+      document.title = "Invitation: " + nama;
     }
 
     // 2. Logika Kilau/Glitter
@@ -285,19 +439,21 @@
       }
     })();
 
-    // 3. Logika Buka Undangan & Musik
+    // 3. Logika Buka Undangan, Musik & Memunculkan Tombol Kado
     const btnBuka = document.getElementById('btn-buka');
     const cover = document.getElementById('cover');
     const musik = document.getElementById('musik');
     const btnMusik = document.getElementById('btn-musik');
     const iframeCanva = document.getElementById('undangan-canva');
+    const btnKado = document.getElementById('btn-kado');
 
     btnBuka.addEventListener('click', () => {
       cover.classList.add('buka');
       document.documentElement.classList.remove('terkunci');
 
-      // Memberi jeda 800ms sebelum memuat iframe Canva
-      // Agar cover bisa terangkat dulu, baru animasi Canva dimainkan!
+      btnKado.classList.add('aktif');
+
+      // Memberi jeda memuat iframe Canva (800ms) agar animasi berjalan MULUS setelah cover terangkat
       setTimeout(() => {
         iframeCanva.src = iframeCanva.getAttribute('data-src');
       }, 800);
@@ -320,6 +476,35 @@
         btnMusik.classList.remove('putar');
       }
     });
+
+    // 5. Logika Pop-Up Wedding Gift (Salin Rekening Otomatis)
+    const popupKado = document.getElementById('popup-kado');
+
+    btnKado.addEventListener('click', () => {
+      popupKado.classList.add('tampil');
+    });
+
+    function tutupKado() {
+      popupKado.classList.remove('tampil');
+    }
+
+    function salinRekening(nomorRekening, idTombol) {
+      navigator.clipboard.writeText(nomorRekening).then(() => {
+        const btn = document.getElementById(idTombol);
+        const teksAsli = btn.innerText;
+
+        // Animasi teks tombol saat berhasil dicopy
+        btn.innerText = "Copied! ✓";
+        btn.style.background = "#d4edda";
+
+        setTimeout(() => {
+          btn.innerText = teksAsli;
+          btn.style.background = "#a8c8e4";
+        }, 2000);
+      }).catch(err => {
+        alert("Oops, your browser does not support auto-copy. Please copy the number manually!");
+      });
+    }
   </script>
 </body>
 
